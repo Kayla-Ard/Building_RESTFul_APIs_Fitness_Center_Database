@@ -1,0 +1,38 @@
+# Screenshots of Flask Routes in Postman
+
+## MEMBERS ROUTES
+
+# GET MEMBERS
+
+![Alt text](GET_MEMBERS.png)
+
+# POST MEMBERS
+
+![Alt text](POST_MEMBERS.png)
+
+# PUT MEMBERS
+
+![Alt text](PUT_MEMBERS.png)
+
+# DELETE MEMBERS
+
+![Alt text](DELETE_MEMBERS.png)
+
+
+## WORKOUT SESSIONS ROUTES
+
+# GET WORKOUT SESSIONS
+
+![Alt text](GET_WORKOUT_SESSIONS.png)
+
+# POST WORKOUT SESSIONS
+
+![Alt text](POST_WORKOUT_SESSIONS.png)
+
+# PUT WORKOUT SESSIONS
+
+![Alt text](PUT_WORKOUT_SESSIONS.png)
+
+# DELETE WORKOUT SESSIONS
+
+![Alt text](DELETE_WORKOUT_SESSIONS.png)
