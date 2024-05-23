@@ -28,7 +28,6 @@ def get_db_connection():
         print(f"Error: {e}")
         return None
     
-
 class MemberSchema(ma.Schema):
     member_name = fields.String(required = True)
     member_email = fields.String(required = True)
@@ -57,11 +56,10 @@ def add_member():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary = True)
     member_name = member_info['member_name']
-    member_id = member_info['member_id']
     member_email = member_info['member_email']
     member_phone = member_info['member_phone']
-    new_member = (member_name, member_id, member_email, member_phone)
-    query = "INSERT INTO Members(member_name, member_id, member_email, member_phone) VALUES (%s, %s, %s, %s)"
+    new_member = (member_name, member_email, member_phone)
+    query = "INSERT INTO Members(member_name, member_email, member_phone) VALUES (%s, %s, %s)"
     cursor.execute(query, new_member)
     conn.commit()
     cursor.close()
@@ -95,17 +93,14 @@ def delete_member(member_id):
     conn.close()
     return jsonify({"message": "Member successfully deleted!"}), 200
 
-
-
 class WorkoutSessionSchema(ma.Schema):
     cardio_focus = fields.String(required = True)
     lift_focus = fields.String(required = True)
     date = fields.Date(required = True)
-    time = fields.Time(required = True)
     member_id = fields.Int(required = True)
 
     class Meta:
-        fields = ("workout_id", "cardio_focus", "lift_focus", "date", "time", "member_id")
+        fields = ("workout_id", "cardio_focus", "lift_focus", "date", "member_id")
     
 workout_session_schema = WorkoutSessionSchema()        
 workout_sessions_schema = WorkoutSessionSchema(many = True)
@@ -117,6 +112,7 @@ def get_workout_sessions():
     query = "SELECT * FROM Workout_Sessions"
     cursor.execute(query)
     workout_sessions = cursor.fetchall()
+    print(workout_sessions)
     cursor.close()
     conn.close()
     return workout_sessions_schema.jsonify(workout_sessions)
@@ -126,14 +122,12 @@ def add_workout_session():
     workout_session_info = workout_session_schema.load(request.json)
     conn = get_db_connection()
     cursor = conn.cursor(dictionary = True)
-    
     cardio_focus = workout_session_info['cardio_focus']
     lift_focus = workout_session_info['lift_focus']
     date = workout_session_info['date']
-    time = workout_session_info["time"]
     member_id = workout_session_info["member_id"]
-    new_workout_session = (cardio_focus, lift_focus, date, time, member_id)
-    query = "INSERT INTO Workout_Sessions(cardio_focus, lift_focus, date, time, member_id) VALUES (%s, %s, %s, %s, %s)"
+    new_workout_session = (cardio_focus, lift_focus, date, member_id)
+    query = "INSERT INTO Workout_Sessions(cardio_focus, lift_focus, date, member_id) VALUES (%s, %s, %s, %s)"
     cursor.execute(query, new_workout_session)
     conn.commit()
     cursor.close()
@@ -148,10 +142,9 @@ def update_workout_session(workout_id):
     cardio_focus = workout_session_info['cardio_focus']
     lift_focus = workout_session_info['lift_focus']
     date = workout_session_info['date']
-    time = workout_session_info["time"]
     member_id = workout_session_info["member_id"]
-    updated_workout_session = (cardio_focus, lift_focus, date, time, member_id, workout_id)
-    query = "UPDATE Workout_Sessions SET cardio_focus = %s, lift_focus = %s, date = %s, time = %s, member_id = %s WHERE workout_id = %s"
+    updated_workout_session = (cardio_focus, lift_focus, date, member_id, workout_id)
+    query = "UPDATE Workout_Sessions SET cardio_focus = %s, lift_focus = %s, date = %s, member_id = %s WHERE workout_id = %s"
     cursor.execute(query, updated_workout_session)
     conn.commit()
     cursor.close()
